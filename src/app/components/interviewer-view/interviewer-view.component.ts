@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, Signal, signal } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CountdownComponent } from "./components/countdown.component";
 import { RangeScoreComponent } from "./components/range-score.component";
@@ -6,10 +6,9 @@ import { QuesionAnswerComponent } from "./components/quesion-answer.component";
 import { StepsComponent } from "./components/steps.component";
 import { Select, Store } from "@ngxs/store";
 import { InterviewerSelectors } from "./store/interviewer/interviewer.selectors";
-import { lastValueFrom, Observable, single } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 import { Topic } from "./store/interviewer/interviewer.model";
 import { Load } from "./store/interviewer/interviewer.actions";
-import { toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-interviewer-view',

@@ -15,8 +15,12 @@ import { RouterLink } from "@angular/router";
       <div class="h-full flex flex-col p-5">
           <div *ngIf="positionState$ | async as state" class="flex flex-row flex-wrap">
               <ng-container *ngFor="let position of state.positions">
-                  <div class="card border dark:border-gray-800 dark:bg-base-300/25 w-96 bg-base-100 shadow-xl">
-                      <div class="card-body" [routerLink]="['/iv/' + position.id + '/0/0']">
+                  <div class="card border
+                              dark:border-gray-800 dark:bg-base-300/25 w-96 bg-base-100 shadow-xl
+                              hover:bg-base-300/95 hover:cursor-pointer
+                             "
+                       [routerLink]="['/iv/' + position.id + '/0/0']">
+                      <div class="card-body">
                           <h2 class="card-title">{{position.name}}</h2>
                           <p>id: {{position.id}}</p>
                           <p>Panel Members: {{position.panelMembersArr.length}}</p>

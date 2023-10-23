@@ -4,9 +4,7 @@ import { Router, RouterLink } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { Login } from "../store/auth/auth.actions";
 import { lastValueFrom } from "rxjs";
-import { redirectLoggedInTo } from "@angular/fire/auth-guard";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-login',

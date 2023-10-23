@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Title } from "@angular/platform-browser";
-import { min } from "rxjs";
 
 @Component({
   selector: 'app-countdown',

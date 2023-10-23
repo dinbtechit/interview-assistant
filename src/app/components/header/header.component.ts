@@ -1,12 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeSwitcherComponent } from "common";
 import { CountdownComponent } from "../interviewer-view/components/countdown.component";
-import { Select, Store } from "@ngxs/store";
 import { StepsComponent } from "../interviewer-view/components/steps.component";
-import { Logout } from "../../store/auth/auth.actions";
-import { lastValueFrom } from "rxjs";
-import { Router } from "@angular/router";
 import { UserAvatarComponent } from "./component/user-avatar.component";
 
 @Component({

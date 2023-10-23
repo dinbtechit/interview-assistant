@@ -4,7 +4,6 @@ import { LoginComponent } from "./components/login.component";
 import { InterviewerViewComponent } from "./components/interviewer-view/interviewer-view.component";
 import { CandidateViewComponent } from "./components/candidate-view/candidate-view.component";
 import { AngularFireAuthGuard } from "@angular/fire/compat/auth-guard";
-import { redirectUnauthorizedTo } from "@angular/fire/auth-guard";
 import { PositionComponent } from "./components/positions/position.component";
 
 const routes: Routes = [

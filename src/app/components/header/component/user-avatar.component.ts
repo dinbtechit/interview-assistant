@@ -21,6 +21,9 @@ import { AuthState, AuthStateModel } from "../../../store/auth/auth.state";
               <ul tabindex="0"
                   class="mt-3 z-[1] p-2 shadow-lg menu menu-sm dropdown-content bg-base-200 rounded-box w-52">
                   <li>
+                    {{state.displayName}}
+                  </li>
+                  <li>
                       <a class="justify-between">
                           Profile
                           <span class="badge">New</span>

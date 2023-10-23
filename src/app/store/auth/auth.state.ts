@@ -2,9 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { State, Action, StateContext, NgxsOnInit } from '@ngxs/store';
 import { CheckLoginStatus, Login, Logout } from './auth.actions';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { GoogleAuthProvider, Persistence } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
 import { Router } from "@angular/router";
-import firebase from 'firebase/compat/app';
 
 export interface AuthStateModel {
   isLoggedIn: boolean;
