@@ -3,11 +3,16 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "interview-organizer": {
+    "interview-assistance": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "flat": true,
+          "skipTests": true,
+          "standalone": true,
+          "inlineStyle": true,
+          "inlineTemplate": true
         }
       },
       "root": "",
@@ -17,7 +22,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/interview-organizer",
+            "outputPath": "dist/interview-assistance",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -27,7 +32,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "libs/common/src/assets",
+                "output": "assets"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -56,7 +66,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -65,10 +81,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "interview-organizer:build:production"
+              "browserTarget": "interview-assistance:build:production"
             },
             "development": {
-              "browserTarget": "interview-organizer:build:development"
+              "browserTarget": "interview-assistance:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "interview-organizer:build"
+            "browserTarget": "interview-assistance:build"
           }
         },
         "test": {
@@ -97,8 +113,82 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2,
+            "browserTarget": "interview-assistance:build:production"
+          }
+        }
+      }
+    },
+    "common": {
+      "projectType": "library",
+      "root": "libs/common",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "flat": true,
+          "skipTests": true,
+          "standalone": true,
+          "inlineStyle": true,
+          "inlineTemplate": true
+        }
+      },
+      "sourceRoot": "libs/common/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "libs/common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/common/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/common/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "libs/common/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/common/**/*.ts",
+              "libs/common/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "5dbd8007-5070-4996-af34-9a955eefbd25",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "interview-assistance",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dinesh-home-projects": {
+      "hosting": {
+        "interview-assistance": [
+          "interview-assistant"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dinesh-home-projects"
+  }
+}
