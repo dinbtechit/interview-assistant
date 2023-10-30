@@ -3,9 +3,11 @@ import { State, Action, StateContext, NgxsOnInit } from '@ngxs/store';
 import { CheckLoginStatus, Login, Logout } from './auth.actions';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
+import { filter, firstValueFrom } from "rxjs";
 
 export interface AuthStateModel {
+  isLoading: boolean;
   isLoggedIn: boolean;
   user?: NonNullable<unknown> | null;
   displayName?: string | null;
@@ -13,6 +15,7 @@ export interface AuthStateModel {
 }
 
 const defaults: AuthStateModel = {
+  isLoading: false,
   isLoggedIn: false,
 };
 
@@ -33,18 +36,20 @@ export class AuthState implements NgxsOnInit {
 
   @Action(CheckLoginStatus)
   async checkLoginStatus({ setState, patchState }: StateContext<AuthStateModel>) {
+    patchState({ isLoading: true })
     await this.fireAuth.onAuthStateChanged(async (user) => {
       if (user) {
         patchState({
+          isLoading: false,
           isLoggedIn: true,
           photoUrl: user.photoURL,
           displayName: user.displayName
         })
       } else {
         setState({
+          isLoading: false,
           isLoggedIn: false
         })
-        await this.router.navigateByUrl('login')
       }
     })
 

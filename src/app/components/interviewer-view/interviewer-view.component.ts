@@ -6,14 +6,17 @@ import { QuesionAnswerComponent } from "./components/quesion-answer.component";
 import { StepsComponent } from "./components/steps.component";
 import { Select, Store } from "@ngxs/store";
 import { InterviewerSelectors } from "./store/interviewer/interviewer.selectors";
-import { lastValueFrom, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Topic } from "./store/interviewer/interviewer.model";
-import { Load } from "./store/interviewer/interviewer.actions";
+import { SummaryAgendaComponent } from "./components/summary-agenda.component";
+import {
+  NextItem
+} from "../positions/scheduled-interviews/store/scheduled-interviews/current-scheduled-interview/current-scheduled-interview.actions";
 
 @Component({
   selector: 'app-interviewer-view',
   standalone: true,
-  imports: [CommonModule, CountdownComponent, RangeScoreComponent, QuesionAnswerComponent, StepsComponent],
+  imports: [CommonModule, CountdownComponent, RangeScoreComponent, QuesionAnswerComponent, StepsComponent, SummaryAgendaComponent],
   template: `
     <div class="h-full flex flex-col justify-start items-center p-10 overflow-auto">
       <div class="flex flex-col w-full h-1/2 overflow-auto scroll-auto">
@@ -30,12 +33,12 @@ import { Load } from "./store/interviewer/interviewer.actions";
         </div>
       </div>
       <div class="flex flex-row w-full justify-between mt-5">
-        <button class="btn btn-secondary"
+        <button class="btn btn-primary"
                 [disabled]="reachedMin()"
-                (click)="previousQuestion()"><</button>
-        <button class="btn btn-secondary"
-                [disabled]="reachedMax()"
-                (click)="nextQuestion()">></button>
+                (click)="previousQuestion()">< Previous</button>
+        <button class="btn btn-primary"
+
+                (click)="next()">Next ></button>
       </div>
     </div>
   `,
@@ -62,7 +65,6 @@ export class InterviewerViewComponent implements OnInit {
   topicLength: { questionLength: number }[] = []
 
   async ngOnInit() {
-    await lastValueFrom(this.store.dispatch(new Load(this.position)))
     this.topics$.subscribe((topics) => {
       if (topics) {
         for (const d of topics) {
@@ -72,6 +74,10 @@ export class InterviewerViewComponent implements OnInit {
         }
       }
     });
+  }
+
+  next() {
+    this.store.dispatch(new NextItem())
   }
 
   nextQuestion() {

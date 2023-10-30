@@ -15,11 +15,9 @@ const defaults: PositionStateModel = {
   defaults
 })
 @Injectable()
-export class PositionState implements NgxsOnInit {
+export class PositionState {
+
   positionsService = inject(PositionsService)
-  ngxsOnInit(ctx: StateContext<PositionStateModel>): void {
-    ctx.dispatch(new LoadPositions())
-  }
 
   @Action(LoadPositions)
   load({ patchState }: StateContext<PositionStateModel>) {

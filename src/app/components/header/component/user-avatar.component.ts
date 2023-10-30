@@ -19,16 +19,17 @@ import { AuthState, AuthStateModel } from "../../../store/auth/auth.state";
                   </div>
               </label>
               <ul tabindex="0"
-                  class="mt-3 z-[1] p-2 shadow-lg menu menu-sm dropdown-content bg-base-200 rounded-box w-52">
-                  <li>
+                  class="z-[1] p-2 shadow-lg menu menu-sm dropdown-content border border-gray-200 dark:border-gray-700
+                  bg-white dark:bg-gray-900 rounded-box w-52">
+                  <li class="flex flex-row ml-3 mb-3 mt-3 pb-3 items-center border-b-[0.5px] dark:border-gray-700">
                     {{state.displayName}}
                   </li>
-                  <li>
+                  <!--<li>
                       <a class="justify-between">
                           Profile
                           <span class="badge">New</span>
                       </a>
-                  </li>
+                  </li>-->
                   <li (click)="logout()"><a>Logout</a></li>
               </ul>
           </div>
@@ -50,6 +51,7 @@ export class UserAvatarComponent {
 
   async logout() {
     await lastValueFrom(this.store.dispatch(new Logout()))
+    await this.router.navigateByUrl('login')
   }
 
 

@@ -1,18 +1,19 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from "@angular/router";
-import { Store } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { Login } from "../store/auth/auth.actions";
-import { lastValueFrom } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { AuthState, AuthStateModel } from "../store/auth/auth.state";
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-      <div class="flex flex-col justify-center items-center h-full">
-          <div class="max-w-md w-full flex flex-col items-center">
+      <div *ngIf="authState$ | async as state" class="flex flex-col justify-center items-center h-full">
+          <div class="max-w-md w-full flex flex-col items-center" *ngIf="!state.isLoading; else loading">
               <div class="w-full">
                   <div class="form-control">
                       <label class="label" for="email">
@@ -48,31 +49,24 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
               </div>
           </div>
       </div>
+      <ng-template #loading>
+        <span class="loading loading-bars loading-lg"></span>
+      </ng-template>
   `,
   styles: [
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   store = inject(Store)
   router = inject(Router)
   fireAuth = inject(AngularFireAuth)
-
-
-  async ngOnInit(): Promise<void> {
-    this.fireAuth.authState.subscribe(async (user) => {
-      if (user) {
-        const v = await user.getIdToken(true)
-        if (v) {
-          //await this.router.navigateByUrl('interviewer-view')
-          await this.router.navigateByUrl('positions')
-        }
-      }
-    })
-  }
+  @Select(AuthState)
+  authState$: Observable<AuthStateModel>;
 
 
   async login(){
     await lastValueFrom(this.store.dispatch(new Login()))
+    await this.router.navigateByUrl('positions')
   }
 
 }

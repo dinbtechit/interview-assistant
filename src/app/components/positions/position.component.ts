@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { PositionState } from "./store/position/position.state";
 import { Observable } from "rxjs";
 import { PositionStateModel } from "./store/position/position.model";
 import { RouterLink } from "@angular/router";
+import { LoadPositions } from "./store/position/position.actions";
 
 
 @Component({
@@ -19,7 +20,7 @@ import { RouterLink } from "@angular/router";
                               dark:border-gray-800 dark:bg-base-300/25 w-96 bg-base-100 shadow-xl
                               hover:bg-base-300/95 hover:cursor-pointer
                              "
-                       [routerLink]="['/iv/' + position.id + '/0/0']">
+                       [routerLink]="['/iv/' + position.id + '/interviews']">
                       <div class="card-body">
                           <h2 class="card-title">{{position.name}}</h2>
                           <p>id: {{position.id}}</p>
@@ -36,11 +37,14 @@ import { RouterLink } from "@angular/router";
   styles: [
   ]
 })
-export class PositionComponent {
+export class PositionComponent implements OnInit {
 
   @Select(PositionState)
   positionState$: Observable<PositionStateModel>
+  store = inject(Store)
 
-
+  ngOnInit(): void {
+    this.store.dispatch(new LoadPositions())
+  }
 
 }

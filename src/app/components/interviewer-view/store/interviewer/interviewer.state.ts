@@ -3,6 +3,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { InterviewerStateModel, Section } from "./interviewer.model";
 import { Load, Upload } from "./interviewer.actions";
 import { AngularFirestore, DocumentReference } from "@angular/fire/compat/firestore";
+import { InterviewService } from "../../services/interview.service";
 
 
 const defaults: InterviewerStateModel = {
@@ -18,8 +19,7 @@ const defaults: InterviewerStateModel = {
 @Injectable()
 export class InterviewerState {
 
-
-  angularFireStore = inject(AngularFirestore)
+  interviewService = inject(InterviewService)
 
 
   @Selector()
@@ -34,16 +34,12 @@ export class InterviewerState {
     })
 
     try {
-      const position = this.angularFireStore
-        .doc<Position>(`/interview-assistant/interview/openPositions/${positionId}`)
-      const sections = position.collection('interviewMaterial')
-        .doc<{ sections: Array<Section> }>('sections')
-      sections.valueChanges().subscribe((doc) => {
-        patchState({
-          isLoading: false,
-          sections: doc.sections
-        })
+    this.interviewService.loadInterviewQuestions(positionId).subscribe((doc)=> {
+      patchState({
+        isLoading: false,
+        sections: doc.sections
       })
+    })
     } catch (e) {
       console.error(e)
       patchState({
@@ -57,9 +53,9 @@ export class InterviewerState {
 
   @Action(Upload)
   async upload({ patchState }: StateContext<InterviewerStateModel>) {
-    const sections = this.angularFireStore.doc(
+    /*const sections = this.angularFireStore.doc(
       '/interview-assistant/interview/openPositions/seniorFullStackDeveloper/interviewMaterial/sections'
-    )
+    )*/
     /*const result = {
       sections: await lastValueFrom(this.interviewService.loadInterviewQuestions())
     }

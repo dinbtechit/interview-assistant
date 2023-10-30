@@ -22,6 +22,13 @@ import { AngularFireModule, FIREBASE_OPTIONS } from "@angular/fire/compat";
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AuthState } from "./store/auth/auth.state";
 import { PositionState } from "./components/positions/store/position/position.state";
+import { AngularFireAuthGuardModule } from "@angular/fire/compat/auth-guard";
+import {
+  ScheduledInterviewsState
+} from "./components/positions/scheduled-interviews/store/scheduled-interviews/scheduled-interviews.state";
+import {
+  CurrentScheduledInterviewState
+} from "./components/positions/scheduled-interviews/store/scheduled-interviews/current-scheduled-interview/current-scheduled-interview.state";
 
 @NgModule({
   declarations: [
@@ -38,7 +45,15 @@ import { PositionState } from "./components/positions/store/position/position.st
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     provideRemoteConfig(() => getRemoteConfig()),
-    NgxsModule.forRoot([AuthState, PositionState, InterviewerState]),
+    AngularFirestoreModule.enablePersistence({synchronizeTabs: true}),
+    AngularFireAuthGuardModule,
+    NgxsModule.forRoot([
+      AuthState,
+      PositionState,
+      InterviewerState,
+      ScheduledInterviewsState,
+      CurrentScheduledInterviewState
+    ]),
     NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
     BrowserAnimationsModule,
     RouterOutlet,

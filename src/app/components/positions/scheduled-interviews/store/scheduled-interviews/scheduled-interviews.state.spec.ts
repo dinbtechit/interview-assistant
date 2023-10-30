@@ -1,16 +1,17 @@
 import { TestBed, async } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { PositionState } from './position.state';
+import { ScheduledInterviewsState } from './scheduled-interviews.state';
+import { of } from "rxjs";
 
 
-describe('Position actions', () => {
+describe('ScheduledInterviews actions', () => {
   let store: Store;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([PositionState])]
+      imports: [NgxsModule.forRoot([ScheduledInterviewsState])]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   }));
 
   it('should create an action and add an item', () => {

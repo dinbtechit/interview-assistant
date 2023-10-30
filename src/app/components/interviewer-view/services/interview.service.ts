@@ -1,19 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import { Section } from "../store/interviewer/interviewer.model";
-import { map } from "rxjs";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterviewService {
 
- /* private httpClient = inject(HttpClient)
+  private angularFireStore = inject(AngularFirestore);
+  private readonly basePath = '/interview-assistant/interview/openPositions';
+  private readonly collectionPath = 'interviewMaterial';
+  private readonly docPath = 'sections';
 
-  loadInterviewQuestions() {
-    return this.httpClient.get<{sections: Array<Section>}>('/assets/questions.json').pipe(
-      map(i => i.sections)
-    )
-  }*/
+  loadInterviewQuestions(positionId: string) {
+    return  this.angularFireStore
+      .doc<{ sections: Array<Section> }>(`${this.basePath}/${positionId}/${this.collectionPath}/${this.docPath}`)
+      .valueChanges()
+  }
 
 }
